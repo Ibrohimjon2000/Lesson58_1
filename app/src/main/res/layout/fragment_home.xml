@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".fragment.HomeFragment">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/list"
+        android:layout_width="220dp"
+        android:layout_height="60dp"
+        android:backgroundTint="#52CA6C"
+        android:text="Barcha fuqarolar"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:cornerRadius="10dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/add"
+        android:layout_width="220dp"
+        android:layout_height="60dp"
+        android:backgroundTint="#52CA6C"
+        android:text="Fuqaroga pasport berish"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:cornerRadius="10dp" />
+
+</LinearLayout>
