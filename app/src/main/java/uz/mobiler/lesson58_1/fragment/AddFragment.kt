@@ -2,13 +2,16 @@ package uz.mobiler.lesson58_1.fragment
 
 import android.Manifest
 import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.DatePicker
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -28,6 +31,9 @@ import uz.mobiler.lesson58_1.databinding.FragmentAddBinding
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.random.Random
 
 private const val ARG_PARAM1 = "param1"
@@ -99,10 +105,44 @@ class AddFragment : Fragment() {
             }
             regionAdapter = RegionAdapter(requireContext(), regionList)
             region.adapter = regionAdapter
-
             genderAdapter = GenderAdapter(requireContext(), genderList)
             gender.adapter = genderAdapter
 
+            val calendar = Calendar.getInstance()
+            val dp = DatePickerDialog.OnDateSetListener { datePicker, year, month, day ->
+                calendar.set(Calendar.YEAR, year)
+                calendar.set(Calendar.MONTH, month)
+                calendar.set(Calendar.DAY_OF_MONTH, day)
+                val format = "dd/MM/yyyy"
+                val simpleDateFormat = SimpleDateFormat(format, Locale.US)
+                date.setText(simpleDateFormat.format(calendar.time))
+            }
+            val dp1 = DatePickerDialog.OnDateSetListener { datePicker, year, month, day ->
+                calendar.set(Calendar.YEAR, year)
+                calendar.set(Calendar.MONTH, month)
+                calendar.set(Calendar.DAY_OF_MONTH, day)
+                val format1 = "dd/MM/yyyy"
+                val simpleDateFormat1 = SimpleDateFormat(format1, Locale.US)
+                lifetime.setText(simpleDateFormat1.format(calendar.time))
+            }
+            date.setOnClickListener {
+                DatePickerDialog(
+                    requireContext(),
+                    dp,
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH)
+                ).show()
+            }
+            lifetime.setOnClickListener {
+                DatePickerDialog(
+                    requireContext(),
+                    dp1,
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH)
+                ).show()
+            }
             image.setOnClickListener {
                 requestPermissionLauncher.launch(
                     arrayOf(
@@ -119,7 +159,7 @@ class AddFragment : Fragment() {
                 val region = regionList[region.selectedItemPosition]
                 val city = city.text.toString()
                 val address = address.text.toString()
-                val date = date.text.toString()
+                val day = date.text.toString()
                 val lifetime = lifetime.text.toString()
                 val gender = genderList[gender.selectedItemPosition]
                 var seriesNumber = Random.nextInt(9000000) + 1000000
@@ -136,7 +176,7 @@ class AddFragment : Fragment() {
                     && mName.isNotEmpty()
                     && city.isNotEmpty()
                     && address.isNotEmpty()
-                    && date.isNotEmpty()
+                    && day.isNotEmpty()
                     && lifetime.isNotEmpty()
                     && currentPhotoPath.isNotEmpty()
                 ) {
@@ -153,7 +193,7 @@ class AddFragment : Fragment() {
                                 regionId = region.id,
                                 city = city,
                                 address = address,
-                                date = date,
+                                date = day,
                                 lifeTime = lifetime,
                                 genderId = gender.id,
                                 imagePath = currentPhotoPath,
